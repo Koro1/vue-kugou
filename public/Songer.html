@@ -1,0 +1,95 @@
+<html>
+<head>
+    <title>Express</title>
+    <!--引用公共的样式-->
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <!--引用Swiper css样式-->
+    <link rel="stylesheet" href="stylesheets/swiper.min.css">
+    <!--引用Swiperjs文件-->
+    <script src="javascripts/swiper.min.js"></script>
+
+    <script src="javascripts/jquery-3.3.1.js"></script>
+    <script src="javascripts/vue.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+   .songer_list{
+       margin: 1rem .7143rem 1.0714rem .7143rem;
+       background: #fbfbfb;
+       border: 1px solid #e4e4e4;
+       border-radius: 5px;
+   }
+   .songer_list li{
+       border-top: 1px solid #e4e4e4;
+   }
+   .songer_list li:first-child{border-top: none}
+   .songer_list li a{
+       padding: .7143rem;
+       display:block;
+       font-size: 1rem;
+       color:#333;
+   }
+  /* .nav_hd li:nth-child(4) a{
+       border-bottom: .2143rem solid #33a3f5;
+   }*/
+    </style>
+</head>
+
+<body>
+<header>
+    <div id="app1">
+        <!--使用组件-->
+        <top_hd></top_hd>
+        <nav_hd></nav_hd>
+    </div>
+</header>
+<script src="javascripts/header.js"></script>
+<main>
+<div  id="app">
+    <ul class="songer_list" v-for="uls in singerData">
+      <li v-for="lis in uls">
+          <a :href="'/songerList.html?classid='+lis.classid" v-text="lis.classname" ></a>
+      </li>
+    </ul>
+</div>
+</main>
+<!-- 加载标签-->
+<div class="lod_img_box">
+    <img src="images/lod.gif" alt="" class="lod_img">
+</div>
+
+<script>
+    $.ajax({
+        url:"/ma",
+        data:{urls:"http://m.kugou.com/singer/class&json=true"},
+        success:function(da){
+            $(".lod_img").hide();
+            console.log(da);
+            console.log(da.list);
+            //函数的递归
+            var arr1=[];
+            function abc(datass,txt){
+                var arr2=[];
+                var n;
+                for(var i=0;i<datass.length;i++){
+                    if(datass[i].classname.slice(0,2)==txt){
+                        n=i;
+                        arr2.push(datass[i]);
+                    }
+                }
+                arr1.push(arr2);
+                n++;
+                if(datass[n]){
+                    abc(da.list,da.list[n].classname.slice(0,2))
+                }
+            }
+            abc(da.list,da.list[0].classname.slice(0,2));
+            console.log(arr1);
+
+            new Vue({
+                el:"#app",
+                data:{singerData:arr1}
+            })
+
+        }
+    })
+</script>

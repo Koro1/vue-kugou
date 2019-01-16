@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--引用公共的样式-->
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <!--引用jquery-->
+    <script src="javascripts/jquery-3.3.1.js"></script>
+    <!--引用vue-->
+    <script src="javascripts/vue.js"></script>
+    <!--引用视图-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        main{padding-top:0}
+        .top_goback{
+            width:100%;
+            height:3rem;
+            line-height: 3rem;
+            box-shadow: 0 0.1785rem 0.1785rem 0 #f4f4f4;
+            color: #333;
+            background: #fff;
+            position: relative;
+            padding:0 2.1429rem;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .toplist_item a{
+            display: block;
+            position: relative;
+            margin-left: .7143rem;
+            padding: .7143rem 2.14286rem .7143rem 6.4286rem;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        .list_img{
+            position: absolute;
+            top: .7143rem;
+            left: 0;
+            width: 5.3751rem;
+            height: 5.3751rem;
+        }
+        .list_img img{
+            width:100%;
+        }
+        .list_content{
+            min-height: 5.3751rem;
+            line-height: 5.3751rem;
+            display: block;
+            font-size: 1.0714rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+<div id="app1">
+    <!--使用组件-->
+    <top_hd></top_hd>
+</div>
+<main>
+    <div id="app2">
+    <div class="top_goback">
+        <p v-text="topTitle"></p>
+    </div>
+    <ul id="topList">
+        <li class="toplist_item" v-for="lis in songListData">
+            <a :href="'/songerInfo.html?singerid='+lis.singerid">
+                <div class="list_img">
+                    <img :src="lis.imgurl|urlss" alt=""/>
+                </div>
+                <div class="list_content" v-text="lis.singername"></div>
+            </a>
+        </li>
+    </ul>
+</div>
+</main>
+<script src="javascripts/header.js"></script>
+<script>
+    $.ajax({
+        url:"/ma",
+        data:{urls:"http://m.kugou.com/singer/list"+location.search+"&curPage=1&totalPage=1&json=true"},
+        success:function(data){
+            console.log(data);
+            new Vue({
+                el:"#app2",
+                data:{
+                    songListData:data.singers.list.info,
+                    topTitle:data.classname
+                },
+                filters:{
+                    urlss:function(v,s){
+                        return v.replace("{size}",400);
+                    }
+                }
+            });
+        }
+    })
+</script>
+</body>
+</html>

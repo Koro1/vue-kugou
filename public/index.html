@@ -1,0 +1,229 @@
+<html>
+
+<head>
+  <title>Express</title>
+  <!--引用公共的样式-->
+  <link rel="stylesheet" href="stylesheets/style.css">
+  <!--引用Swiper css样式-->
+  <link rel="stylesheet" href="stylesheets/swiper.min.css">
+  <!--引用Swiperjs文件-->
+  <script src="javascripts/swiper.min.js"></script>
+  <!--引用jquery-->
+  <script src="javascripts/jquery-3.3.1.js"></script>
+  <script src="javascripts/vue.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style>
+
+    main{
+      /* position: absolute;
+       top:115.69px;
+       overflow-y: scroll;
+       overflow-x: hidden;*/
+
+    }
+    /*Swiper 样式*/
+    .swiper-container {
+      width: 100%;/*banner容器的宽度*/
+      height:148px;/*banner容器的高度*/
+    }
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+
+      /* Center slide text vertically */
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+    }
+    .swiper-slide img{
+      width:100%;
+    }
+
+    /*新歌*/
+    .songlist{
+      padding-left:.7143rem;
+      display: none;
+    }
+    .songlist_item{
+      width: 100%;
+      height: 4.0714rem;
+      border-bottom: 1px solid #e5e5e5;
+      position: relative;
+      display: table;
+
+    }
+    .song_name{
+      width: 100%;
+      padding-right: 2.657rem;
+      display: table-cell;
+      vertical-align: middle;
+      padding-left: .3571rem;
+      cursor: pointer;
+      font-size: 1rem;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+    .loading_img{
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 2.5rem;
+      height: 100%;
+      cursor: pointer;
+      text-align: center;
+    }
+    /*.nav_hd li:nth-child(1) a{
+      border-bottom: .2143rem solid #33a3f5;
+    }*/
+    .loading_img i{
+      width: 1.0357rem;
+      height: 1.0814rem;
+      margin-top: 1.5rem;
+      display: inline-block;
+      background: url(images/download_icon_2.png) no-repeat;
+      background-size: 100%;
+    }
+
+  </style>
+</head>
+<body>
+<header>
+  <div id="app1">
+    <!--使用组件-->
+    <top_hd></top_hd>
+    <nav_hd></nav_hd>
+  </div>
+</header>
+
+<main>
+    <!--Swiper 结构-->
+  <div class="swiper-container" id="banner">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide" v-for="b in das">
+        <a :href="b.extra.tourl">
+          <img :src="b.imgurl">
+        </a>
+      </div>
+    </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+  </div>
+  <!--新歌列表-->
+  <ul class="songlist" id="list"><!--给 list 加id,在下面让vue实例绑定-->
+    <li class="songlist_item" v-for="lis in listData">
+      <div class="song_name" v-text="lis.filename" v-on:click="play(lis.hash)"></div>
+      <div class="loading_img">
+        <i></i>
+      </div>
+    </li>
+  </ul>
+</main>
+
+<!-- 加载标签-->
+<div class="lod_img_box">
+  <img src="images/lod.gif" alt="" class="lod_img">
+</div>
+
+<!--写自己的播放器-->
+<div id="uPlay">
+  <div class="ft_player">
+    <a href="#" class="userPlay">
+      <div class="ft_left"><img :src="Song.imgUrl|urlsss" alt=""/></div>
+      <div class="ft_center">
+        <p class="songName" v-text="Song.songName"></p>
+        <p class="choricSinger" v-text="Song.choricSinger"></p>
+      </div>
+    </a>
+    <div class="ft_right"><i class="btn_pause"></i> <i class="btn_next"></i> <i class="btn_download"></i></div>
+    <audio :src="Song.url" autoplay></audio>
+  </div>
+</div>
+<script src="javascripts/header.js"></script>
+<script>
+  $(".nav_hd ul li a").click(function(){
+    $(this).addClass("active_line")
+  });
+//通过 ajax 获取 banner 数据
+  $.ajax({
+    url:"/ma", //请求接收路由
+    data:{urls:"http://m.kugou.com/?json=true"},
+    success:function(da){//接收响应数据
+      $(".lod_img_box").hide();
+      $(".songlist").show();
+      console.log(da);//数据输出 ，说明有数据
+      //数据出来以后，要把数据给  vue 实例
+      //pageData.maData=data;//把数据增加到 pageData对象里面
+      var banners={das:da.banner};// 把数据库中的 banner 数据存到 das 里面去，再把对象数据给 banners 变量
+      new Vue({
+        el:"#banner",//绑定视图标签
+        data:banners//把banners变量里面的对象数据 给 vue实例
+      });
+
+      <!--Swiper 的js调用代码   这部分放到vue后面-->
+      var swiper = new Swiper('.swiper-container', {
+        pagination: {
+          el: '.swiper-pagination',
+        },
+      });
+
+      /*点击显示播放画面 */
+      var SongData={Song:{imgUrl:"",filename:""}};
+      new Vue({
+        el:"#uPlay",
+        data:SongData,
+        filters:{
+          urlsss:function(v,s){
+            console.log(v);
+            return v.replace("{size}",400)
+          }
+        }
+      });
+      $(".btn_pause").click(function(){
+        //console.log($("audio")[0]);/*<audio :src="Song.url" controls="" autoplay=""></audio>*/
+        /*输出$("audio")是一个对象，所以这里用 $("audio")[0]*/
+        if($(this).hasClass("pauseIcon")){
+           $("audio")[0].play();
+          $(this).removeClass("pauseIcon");
+        }else{
+           $("audio")[0].pause();
+          $(this).addClass("pauseIcon");
+        }
+      });
+
+
+      new Vue({
+        el:"#list",
+        data:{listData:da.data},
+        methods:{
+        play:function(hash){
+         // alert(hash);
+          $.ajax({
+            url:"/ma",
+            data:{urls:"http://m.kugou.com/app/i/getSongInfo.php?cmd=playInfo&hash="+hash},
+            success:function(data){
+              $(".ft_player").show();
+              console.log(data);
+              SongData.Song=data;
+            }
+          })
+        }}
+    })
+    }
+  });
+
+
+
+</script>
+</body>
+
+</html>

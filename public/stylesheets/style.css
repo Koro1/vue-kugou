@@ -1,0 +1,293 @@
+html{font-size: 112.5%;}
+head{font-size: 112.5%;}
+body{margin: 0;padding:0;color:#333;font-size: 1rem;}
+ul{list-style: none;margin: 0;padding:0}
+a{text-decoration: none;color:inherit}
+p{margin: 0;padding:0}
+*{box-sizing: border-box}
+input{outline: none}
+header{
+  position: fixed;
+  height: 120px;
+  top:0;  bottom:0;  left:0;  right:0;
+  width:100%;
+  background: #fff;
+  z-index: 2;
+}
+.top_hd{
+  background: #2ca2f9;
+  height: 3.2143rem;
+  line-height: 3rem;
+  color:#fff;
+  padding:0  1.0357rem;
+}
+.logo{
+  display: inline-block;
+  width: 7.286rem;
+  height: 1.67857rem;
+  vertical-align:middle;
+}
+.loading{
+  display:inline-block;
+  vertical-align: middle;
+}
+.loading span{
+  width: 5.7143rem;
+  height: 1.7143rem;
+  line-height: 1.7143rem;
+  margin-left: .7143rem;
+  border:1px solid #fff;
+  border-radius: 4px;
+  display: block;
+  text-align: center;
+  color:#fff;
+  font-size: .8571rem;
+}
+.search_btn{
+  display: inline-block;
+  width: 1.2143rem;
+  height: 1.2143rem;
+  background:url("../images/search.png") no-repeat;
+  position: absolute;
+  top: 1rem;
+  right: .7143rem;
+  background-size: 100%;
+}
+.nav_hd{
+  width:100%;
+  background: #fff;
+  height: 3.2143rem;
+  line-height: 3rem;
+  background-size:100%;
+  box-shadow: 0 0.1785rem 0.1785rem 0 #f4f4f4;
+
+}
+.nav_hd ul{
+  width:100%;
+  padding:0  .7143rem
+}
+.nav_hd ul li{
+  width:25%;
+  float: left;
+  text-align: center;
+}
+.nav_hd ul:after{
+  display: block;
+  content:"";
+  clear: both;
+}
+.nav_hd ul li a{
+  display: block;
+  height:3.2143rem;
+  font-size: 1.1429rem;
+  line-height: 3.2143rem;
+  /*border-bottom: .2143rem solid #fff;*/
+}
+main{
+  padding-top: 120px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.active_nav{
+  border-bottom: .2143rem solid #33a3f5;
+}
+/*加载图片*/
+.load_img{
+  display: block;
+  margin: auto;
+  position: absolute;
+  left:0;right:0;
+  top:300px;
+}
+.loading_img i{
+  width: 1.0357rem;
+  height: 1.0814rem;
+  margin-top: 1.5rem;
+  display: inline-block;
+  background: url(../images/download_icon_2.png) no-repeat;
+  background-size: 100%;
+}
+
+.info_hd{
+  width:100%;
+  height:12.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.info_hd_title{
+  width:100%;
+  height: 3rem;
+  line-height: 3rem;
+  background: -webkit-linear-gradient(top,rgba(0,0,0,.6),rgba(0,0,0,0));
+  position: absolute;
+  top:0;
+  text-align: center;
+  color:#fff;
+}
+.info_hd img{width:100%;margin-top: -91px}
+.info_time{
+  width:100%;
+  height:2.8rem;
+  position: absolute;
+  bottom:0;
+  left:0;
+  background: -webkit-linear-gradient(bottom,rgba(0,0,0,.6),rgba(0,0,0,0));
+}
+.info_time span{
+  position: absolute;
+  bottom: 1.25rem;
+  left: 1.07143rem;
+  color: #fafff2;
+  font-size: .85714rem;
+}
+.info_songList{
+  padding-left: .7143rem;
+  display:none;
+}
+.info_songList_item{
+  width: 100%;
+  height: 4.0714rem;
+  border-bottom: 1px solid #e5e5e5;
+  position: relative;
+  display: table;
+  overflow:hidden;
+}
+.songs_item{
+  width: 100%;
+  padding-right: 2.657rem;
+  display: table-cell;
+  vertical-align: middle;
+  box-sizing: border-box;
+  padding-left: 2.0674rem;
+}
+.icon_item{
+  padding: 0 .5rem;
+  height: 1.0714rem;
+  line-height: 1.0714rem;
+  border-radius: .5rem;
+  display: inline-block;
+  position: absolute;
+  top:50%;
+  margin-top: -.5357rem;
+  left:0;
+  background:#e80000;
+  color:#fff;
+}
+.item_download{
+  width: 2.5rem;
+  height: 100%;
+  position: absolute;
+  top:0;
+  right:0;
+  text-align: center;
+}
+.item_download i{
+  width: 1.0357rem;
+  height: 1.0814rem;
+  margin-top: 1.5rem;
+  display: inline-block;
+  background: url("../images/download_icon_2.png") no-repeat;
+  background-size: 100%;
+}
+
+/*播放样式*/
+.ft_player{
+  width: 100%;
+  height: 4.2143rem;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: rgba(0,0,0,.9);
+  color: #fff;
+  font-size: 0;
+  display: none;
+  z-index: 2;
+}
+.userPlay{
+  width:60%;
+  display: inline-block;
+  /*border-right:1px solid red;*/
+}
+.userPlay div{float: left}
+.ft_left{
+  width: 35%;
+  height: 4.2143rem;
+  padding: .2143rem .535rem .2143rem .2143rem;
+  display: inline-block;
+  vertical-align: middle;
+}
+.ft_left img{
+  width:100%;
+  border-radius: 5px;
+}
+.ft_center{
+  width: 65%;
+  margin-top: 1rem;
+  display: inline-block;
+  vertical-align: middle;
+}
+.ft_center .songName{
+  width: 100%;
+  line-height: 1.7;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: .8571rem;
+  color: #fff;
+}
+.ft_center .choricSinger{
+  line-height: 1.3;
+  font-size: .7143rem;
+  color: #888;
+}
+.ft_right{
+  display: inline-block;
+  width: 40%;
+  height: 4.2143rem;
+  margin-top: 1.0714rem;
+  vertical-align: top;
+  /*border-left:1px solid blue;*/
+}
+.ft_right i{
+  width: 1.786rem;
+  height: 1.786rem;
+  margin-left: 0.9rem;
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.ft_right .pauseIcon{
+  background:url("../images/play_icon.png");
+  background-size: 100%;
+}
+.btn_pause{
+  background:url("../images/pause_icon.png") no-repeat;
+  background-size: 100%;
+}
+.ft_right .btn_next{
+  background:url("../images/next_icon.png") no-repeat;
+  background-size: 100%;
+}
+.ft_right .btn_download{
+  background:url("../images/download_icon.png") no-repeat;
+  background-size: 100%;
+}
+
+/*返回上一页*/
+.goback{
+  width: 2.1429rem;
+  height: 2.8031rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+  cursor: pointer;
+}
+.goback i{
+  width: .85714rem;
+  height: 1.42857rem;
+  margin-top: .687265rem;
+  display: inline-block;
+  background: url("../images/goback_1.png");
+  background-size: 100%;
+}

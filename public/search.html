@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--引用公共的样式-->
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <!--引用jquery-->
+    <script src="javascripts/jquery-3.3.1.js"></script>
+    <script src="javascripts/vue.js"></script>
+    <!--引用vue 路由-->
+    <script src="javascripts/vue-router.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        .top_goback{
+            width:100%;
+            height:3rem;
+            line-height: 3rem;
+            box-shadow: 0 0.1785rem 0.1785rem #f4f4f4;
+            color: #333;
+            background: #fff;
+            position: relative;
+            padding:0 2.1429rem;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        main{width: 100%;
+            padding-top: 6.4286rem;
+        }
+        .search_box{
+            padding: .7143rem;
+            background: #fbfbfb;
+        }
+
+        .search_form_box{
+            font-size: 0;
+        }
+        .search_form{
+            padding: 0;
+            margin:0;
+            display: block;
+            position: relative;
+            font-size: 0;
+        }
+
+        .search_icon{
+            width: 1.2143rem;
+            height: 1.9285rem;
+            display: block;
+            position: absolute;
+            top: 1px;
+            left: .3714rem;
+            background:url("images/search_icon.png") no-repeat;
+            background-size: 100%;
+        }
+
+        .search_keyword{
+            display: inline-block;
+            width: 70%;
+            padding:.4rem .0714rem .4rem 1.7rem;
+            margin: 0;
+            margin-right: 3%;
+            vertical-align: middle;
+            border: 1px solid #e5e5e5;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .search_btnn{
+            width: 17.25%;
+            height:2.0714rem;
+            line-height: 2.0714rem;
+            border: none;
+            border-radius: 5px;
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 1rem;
+            color: #959595;
+            background: #e5e5e5;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        #hotSearchList{
+            position: relative;
+        }
+        .hot_search_hd{
+            height: 2.8571rem;
+            line-height: 2.8571rem;
+            padding-left: .8929rem;
+            border-bottom: 1px solid #ccc;
+            font-size: .8571rem;
+            color: #2ca3f5;
+        }
+        .hot_search_list{
+            margin-left: .7143rem;
+            overflow: scroll;
+        }
+        .a_btn{
+            height: 3.5714rem;
+            line-height: 3.5714rem;
+            border-bottom: 1px solid #e5e5e5;
+            display: block;
+            color: #333;
+            font-size: 1.1429rem;
+            text-indent: .1786rem;
+            position: relative;
+        }
+        /*搜索结果*/
+        .search_result{
+            background: #fff;
+            position: absolute;
+            top:0;
+        }
+      .search_result_hd{
+          height: 1.5714rem;
+          line-height: 1.5714rem;
+          background: #e6e6e6;
+          padding-left: .9rem;
+          font-size: .7857rem;
+          color: #5d5d5d;
+      }
+        .songlist{
+            padding-left:.7143rem;
+        }
+        .songlist_item{
+            width: 100%;
+            height: 4.0714rem;
+            border-bottom: 1px solid #e5e5e5;
+            position: relative;
+            display: table;
+
+        }
+        .song_name{
+            width: 100%;
+            padding-right: 2.657rem;
+            display: table-cell;
+            vertical-align: middle;
+            padding-left: .3571rem;
+            cursor: pointer;
+            font-size: 1rem;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .loading_img{
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 2.5rem;
+            height: 100%;
+            cursor: pointer;
+            text-align: center;
+        }
+        .loading_img i{
+            width: 1.0357rem;
+            height: 1.0814rem;
+            margin-top: 1.5rem;
+            display: inline-block;
+            background: url(images/download_icon_2.png) no-repeat;
+            background-size: 100%;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div id="app1">
+        <!--使用组件-->
+        <top_hd></top_hd>
+    </div>
+    <div class="top_goback">
+        <p>搜索</p>
+    </div>
+</header>
+<script src="javascripts/header.js"></script>
+<main>
+    <div class="search_box">
+        <div class="search_form_box">
+        <form action="" class="search_form">
+          <span class="search_icon"></span>
+            <input type="text" placeholder="歌手/歌名/拼音" class="search_keyword">
+            <input type="button" value="搜索" class="search_btnn">
+        </form>
+        </div>
+    </div>
+    <div id="hotSearchList">
+        <div id="hot_search">
+            <div class="hot_search_hd">最近热门</div>
+            <ul class="hot_search_list">
+                <li><a href="javascript:;" class="a_btn">独家首发</a></li>
+                <li><a href="javascript:;" class="a_btn">精彩综艺</a></li>
+                <li><a href="javascript:;" class="a_btn">明日之子</a></li>
+                <li><a href="javascript:;" class="a_btn">金曲捞</a></li>
+                <li><a href="javascript:;"  class="a_btn">ACG</a></li>
+                <li><a href="javascript:;"  class="a_btn">儿歌大全</a></li>
+                <li><a href="javascript:;" class="a_btn">古风好歌</a></li>
+                <li><a href="javascript:;" class="a_btn">洗脑电音</a></li>
+            </ul>
+        </div>
+        <!--搜索结果-->
+       <div class="search_result">
+           <div class="search_result_hd" v-text="'共有'+datass.length+'条结果'"></div>
+           <ul class="songlist" v-for="lis in datass">
+               <li class="songlist_item">
+                   <div class="song_name" v-text="lis.filename" v-on:click="play(lis.hash)"></div>
+                   <div class="loading_img">
+                       <i></i>
+                   </div>
+               </li>
+           </ul>
+       </div>
+    </div>
+</main>
+<!--写自己的播放器-->
+<div id="uPlay">
+    <div class="ft_player">
+        <a href="#" class="userPlay">
+            <div class="ft_left"><img :src="Song.imgUrl|urlsss" alt=""/></div>
+            <div class="ft_center">
+                <p class="songName" v-text="Song.songName"></p>
+                <p class="choricSinger" v-text="Song.choricSinger"></p>
+            </div>
+        </a>
+        <div class="ft_right"><i class="btn_pause"></i> <i class="btn_next"></i> <i class="btn_download"></i></div>
+        <audio :src="Song.url" autoplay></audio>
+    </div>
+</div>
+<script>
+    /*点击显示播放画面 */
+    var SongData={Song:{imgUrl:"",filename:""}};
+    new Vue({
+        el:"#uPlay",
+        data:SongData,
+        filters:{
+            urlsss:function(v,s){
+                console.log(v);
+                return v.replace("{size}",400)
+            }
+        }
+    });
+    $(".btn_pause").click(function(){
+        //console.log($("audio")[0]);/*<audio :src="Song.url" controls="" autoplay=""></audio>*/
+        /*输出$("audio")是一个对象，所以这里用 $("audio")[0]*/
+        if($(this).hasClass("pauseIcon")){
+            $("audio")[0].play();
+            $(this).removeClass("pauseIcon");
+        }else{
+            $("audio")[0].pause();
+            $(this).addClass("pauseIcon");
+        }
+    });
+
+    $(".search_result").hide();
+
+    $(".search_btnn").click(function(){
+        alert("你点击了我");
+        $(".search_result").show();
+        var txt1=$(".search_keyword").val();
+        console.log(txt1);
+        var txtStr =encodeURI(txt1, "utf-8");
+        $.ajax({
+            url:"/ma",
+            data:{urls:"http://mobilecdn.kugou.com/api/v3/search/song?format=json&keyword="+txtStr+"&page=1&pagesize=20&showtype=1"},
+            success:function(da){
+                /*隐藏加载*/
+                $(".lod_img_box").hide();
+                /*显示数据盒子*/
+                $(".info_songList").show();
+                console.log(da);
+                console.log(txt1);
+                new Vue({
+                    el:"#hotSearchList",
+                    data:{datass:da.data.info},
+                    methods: {
+                        play: function (hash) {
+                            // alert(hash);
+                            $.ajax({
+                                url: "/ma",
+                                data: {urls: "http://m.kugou.com/app/i/getSongInfo.php?cmd=playInfo&hash=" + hash},
+                                success: function (data) {
+                                    $(".ft_player").show();
+                                    console.log(data);
+                                    SongData.Song = data;
+                                }
+                            })
+                        }
+                    }
+                });
+            }
+        });
+    });
+    $(".search_keyword").focus(function(){
+        $(".search_btnn").css({"background":"#2ba2fa","color":"#fff"});
+    });
+
+
+    $(".a_btn").click(function(){
+        //alert("你点击了我");
+        var txt2=$(this).text();
+        var urlStr = encodeURI(txt2, "utf-8");
+        console.log(txt2);
+        console.log(urlStr);
+        $(".search_result").show();
+        $.ajax({
+            url:"/ma",
+            data:{urls:"http://mobilecdn.kugou.com/api/v3/search/song?format=json&keyword="+urlStr+"&page=1&pagesize=20&showtype=1"},
+            success:function(da2){
+                /*隐藏加载*/
+                $(".lod_img_box").hide();
+                /*显示数据盒子*/
+                $(".info_songList").show();
+                console.log(da2);
+                new Vue({
+                    el:"#hotSearchList",
+                    data:{datass:da2.data.info},
+                    methods: {
+                        play: function (hash) {
+                            // alert(hash);
+                            $.ajax({
+                                url: "/ma",
+                                data: {urls: "http://m.kugou.com/app/i/getSongInfo.php?cmd=playInfo&hash=" + hash},
+                                success: function (data) {
+                                    $(".ft_player").show();
+                                    console.log(data);
+                                    SongData.Song = data;
+                                }
+                            })
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
